@@ -1,23 +1,17 @@
-import {
-	Box,
-	Button,
-	Flex,
-	FormControl,
-	FormLabel,
-	Heading,
-	Input,
-} from '@chakra-ui/react'
-import React from 'react'
+import { Button, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { LogInVM } from '../../core/view-models/auth-model/sign-in.model'
 
 interface ComponentProps {
-	onLogin: () => void
+	onLogin: (data: LogInVM) => void
 }
+type LoginProps = ComponentProps
 
-export type LoginProps = ComponentProps
+export const Login: React.FC<LoginProps> = (props) => {
+	const [loginReq, setLoginReq] = useState<LogInVM>(new LogInVM())
 
-export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 	const loginBtnPress = () => {
-		onLogin()
+		props.onLogin(loginReq)
 	}
 
 	return (
@@ -34,24 +28,24 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 				rounded={6}
 				alignItems={'center'}
 			>
-				<Heading mb={6}>Log in</Heading>
+				<Heading mb={6}>{'Log in'}</Heading>
 				<FormControl>
-					<FormLabel>User name</FormLabel>
+					<FormLabel>{'User name'}</FormLabel>
 					<Input
-						placeholder="qwerty"
+						placeholder={'qwerty'}
 						size={'md'}
 						mb={3}
 						type={'text'}
-						borderColor="gray.300"
+						borderColor={'gray.300'}
 					/>
 
-					<FormLabel>Password</FormLabel>
+					<FormLabel>{'Password'}</FormLabel>
 					<Input
-						placeholder="...."
+						placeholder={'....'}
 						size={'md'}
 						mb={3}
 						type={'password'}
-						borderColor="gray.300"
+						borderColor={'gray.300'}
 					/>
 				</FormControl>
 
@@ -61,7 +55,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 					width={'100%'}
 					onClick={loginBtnPress}
 				>
-					Log in
+					{'Log in\r'}
 				</Button>
 			</Flex>
 		</Flex>

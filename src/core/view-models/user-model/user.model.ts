@@ -1,5 +1,5 @@
 export class UserVM {
-	id: String
+	id: string
 
 	constructor() {
 		this.id = ''

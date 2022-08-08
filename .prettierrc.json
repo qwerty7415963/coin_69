@@ -7,6 +7,6 @@
 	"bracketSpacing": true,
 	"useTabs": true,
 	"singleAttributePerLine": true,
-	"embeddedLanguageFormatting": "auto"
-	
+	"embeddedLanguageFormatting": "auto",
+	"endOfLine": "lf"
 }

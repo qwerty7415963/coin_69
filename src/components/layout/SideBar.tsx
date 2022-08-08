@@ -1,19 +1,11 @@
-import {
-	Drawer,
-	DrawerBody,
-	DrawerContent,
-	DrawerFooter,
-	DrawerHeader,
-	Flex,
-	Icon,
-	IconButton,
-} from '@chakra-ui/react'
+import { Box, Flex, Icon, IconButton, Spacer, Text } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
+import { useEffect } from 'react'
 import { routes } from '../../routes/routes'
 import { SideBarState } from './store'
 import { AppState } from '../../store/index'
-import { ChevronLeftIcon } from '@chakra-ui/icons'
 
 interface ComponentProps {
 	selectedRoute: number
@@ -28,12 +20,14 @@ export const SideBar: React.FC<SideBarProps> = ({
 	onToggle,
 	onSelectedRoute,
 }) => {
+	const navigation = useNavigate()
 	const { isFullWidth, fullWidth, minWidth }: SideBarState = useSelector(
 		(state: AppState) => state.sideBar
 	)
 
-	const onRoutePress = (index: number) => {
+	const onRoutePress = (index: number, route?: string) => {
 		onSelectedRoute(index)
+		if (route) navigation(route)
 	}
 
 	const onToggleSideBarPress = () => {
@@ -44,75 +38,74 @@ export const SideBar: React.FC<SideBarProps> = ({
 		return routes.map((route, index) => {
 			if (route.name) {
 				return (
-					<Link
-						to={route.path || '/'}
-						style={{ textDecoration: 'none' }}
-						onClick={() => onRoutePress(index)}
+					<Flex
+						key={index + 1}
+						align={'center'}
+						p={'3'}
+						mb={2}
+						borderRadius={'lg'}
+						role={'group'}
+						bg={selectedRoute === index ? 'cyan.800' : 'white'}
+						color={selectedRoute === index ? 'white' : 'black'}
+						cursor={'pointer'}
+						_hover={{
+							bg: 'cyan.700',
+							color: 'white',
+						}}
+						onClick={() => onRoutePress(index, route.path)}
 					>
-						<Flex
-							align="center"
-							p="3"
-							mb={2}
-							borderRadius="lg"
-							role="group"
-							bg={selectedRoute === index ? 'cyan.800' : 'white'}
-							color={selectedRoute === index ? 'white' : 'black'}
-							cursor="pointer"
-							_hover={{
-								bg: 'cyan.700',
-								color: 'white',
-							}}
-						>
-							{route.icon && (
-								<Icon
-									mr="4"
-									fontSize="16"
-									_groupHover={{
-										color: 'white',
-									}}
-									as={route.icon}
-								/>
-							)}
-							{route.name}
-						</Flex>
-					</Link>
+						{route.icon && (
+							<Icon
+								mr={'4'}
+								fontSize={'16'}
+								_groupHover={{
+									color: 'white',
+								}}
+								as={route.icon}
+							/>
+						)}
+						{route.name}
+					</Flex>
 				)
-			} else {
-				return <div />
 			}
+			return <div />
 		})
 	}
 
 	return (
-		<>
-			<Drawer
-				isOpen={isFullWidth}
-				placement="left"
-				onClose={() => {}}
-				size="xs"
-				// finalFocusRef={btnRef}
+		<Box
+			width={isFullWidth ? fullWidth : minWidth}
+			height={'100vh'}
+			backgroundColor={'white'}
+			// finalFocusRef={btnRef}
+		>
+			<Flex
+				direction={'column'}
+				p={4}
+				height={'100%'}
+				justifyContent={'space-between'}
 			>
-				<DrawerContent>
-					<DrawerHeader>Menu</DrawerHeader>
+				<Box>
+					<Text fontSize={'3xl'}>{'Menu'}</Text>
 
-					<DrawerBody>{onRenderLinks()}</DrawerBody>
+					<Box>{onRenderLinks()}</Box>
+				</Box>
 
-					<DrawerFooter borderTopWidth="1px">
-						<IconButton
-							aria-label="Hide-Menu"
-							variant="outline"
-							mr={3}
-							icon={
-								<ChevronLeftIcon
-									w={8}
-									h={8}
-								/>
-							}
-							onClick={onToggleSideBarPress}
-						></IconButton>
-					</DrawerFooter>
-				</DrawerContent>
-			</Drawer>
-		</>
+				<Box borderTopWidth={'1px'}>
+					<IconButton
+						aria-label={'Hide-Menu'}
+						variant={'outline'}
+						mr={3}
+						icon={
+							<ChevronLeftIcon
+								w={8}
+								h={8}
+							/>
+						}
+						onClick={onToggleSideBarPress}
+					/>
+				</Box>
+			</Flex>
+		</Box>
 	)
 }

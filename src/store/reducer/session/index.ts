@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SessionVM } from '../../../core/view-models/session/session.model'
 import { UserVM } from '../../../core/view-models/user-model/user.model'
 
-interface SessionState {
+export interface SessionState {
 	loggedIn: boolean
 	token: string
 	user: UserVM
@@ -25,3 +25,5 @@ export const sessionSlice = createSlice({
 		},
 	},
 })
+
+export const { UPDATE_SESSION } = sessionSlice.actions

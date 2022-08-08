@@ -16,9 +16,9 @@ export const Header: React.FC<HeaderProps> = () => {
 			<IconButton
 				size={'lg'}
 				aria-label={'notification'}
-				variant="ghost"
+				variant={'ghost'}
 				icon={<FiBell />}
-			></IconButton>
+			/>
 		</Box>
 	)
 }

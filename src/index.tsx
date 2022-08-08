@@ -2,11 +2,13 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/lib/integration/react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorker from './serviceWorker'
 import { persistor, store } from './store'
-import { PersistGate } from 'redux-persist/lib/integration/react'
 
 const container = document.getElementById('root')
 if (!container) throw new Error('Failed to find the root element')
@@ -17,6 +19,15 @@ root.render(
 		<Provider store={store}>
 			<PersistGate persistor={persistor}>
 				<ChakraProvider>
+					<ToastContainer
+						position={'top-right'}
+						autoClose={3000}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+					/>
 					<ColorModeScript />
 					<App />
 				</ChakraProvider>
