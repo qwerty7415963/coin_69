@@ -1,5 +1,7 @@
 import { Button, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { StringDecoder } from 'string_decoder'
+import { FormInput } from '../../components/FormInput'
 import { LogInVM } from '../../core/view-models/auth-model/sign-in.model'
 
 interface ComponentProps {
@@ -9,6 +11,13 @@ type LoginProps = ComponentProps
 
 export const Login: React.FC<LoginProps> = (props) => {
 	const [loginReq, setLoginReq] = useState<LogInVM>(new LogInVM())
+
+	const onChangeInput = (type: string, data: string) => {
+		setLoginReq((prevState) => ({
+			...prevState,
+			[type]: data,
+		}))
+	}
 
 	const loginBtnPress = () => {
 		props.onLogin(loginReq)
@@ -29,25 +38,22 @@ export const Login: React.FC<LoginProps> = (props) => {
 				alignItems={'center'}
 			>
 				<Heading mb={6}>{'Log in'}</Heading>
-				<FormControl>
-					<FormLabel>{'User name'}</FormLabel>
-					<Input
-						placeholder={'qwerty'}
-						size={'md'}
-						mb={3}
-						type={'text'}
-						borderColor={'gray.300'}
-					/>
 
-					<FormLabel>{'Password'}</FormLabel>
-					<Input
-						placeholder={'....'}
-						size={'md'}
-						mb={3}
-						type={'password'}
-						borderColor={'gray.300'}
-					/>
-				</FormControl>
+				<FormInput
+					label={'User name'}
+					value={loginReq.username}
+					onInputChange={(e: string) => onChangeInput('username', e)}
+					required
+					inputType={'text'}
+				/>
+
+				<FormInput
+					label={'Password'}
+					value={loginReq.password}
+					onInputChange={(e: string) => onChangeInput('password', e)}
+					isRequired
+					inputType={'password'}
+				/>
 
 				<Button
 					mt={3}

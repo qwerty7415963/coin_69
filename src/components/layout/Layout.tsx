@@ -10,6 +10,7 @@ import { SideBar } from './SideBar'
 import { SideBarSlice, SideBarState } from './store'
 import { SessionState } from '../../store/reducer/session'
 import { routePath } from '../../routes/routes'
+import { maintainWebSocketConnection } from '../../core/lib/socket'
 
 export const Layout: React.FC = () => {
 	const navigate = useNavigate()
@@ -59,6 +60,14 @@ export const Layout: React.FC = () => {
 
 	useEffect(() => {
 		onDefaultNavigateToLogin()
+		maintainWebSocketConnection()
+		const interval = setInterval(() => {
+			maintainWebSocketConnection()
+		}, 20000)
+
+		return () => {
+			clearInterval(interval)
+		}
 	}, [])
 
 	return (

@@ -39,7 +39,7 @@ export const SideBar: React.FC<SideBarProps> = ({
 			if (route.name) {
 				return (
 					<Flex
-						key={index + 1}
+						key={index}
 						align={'center'}
 						p={'3'}
 						mb={2}
@@ -68,7 +68,7 @@ export const SideBar: React.FC<SideBarProps> = ({
 					</Flex>
 				)
 			}
-			return <div />
+			return <div key={index} />
 		})
 	}
 
